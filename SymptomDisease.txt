@@ -1,0 +1,16 @@
+unique
+Do you feel fatigue and weakness/Do you have swollen ankles feet or abdomen/Do you face reduced ability during to exercise/Do you face shortness of breath/Do you often have an irregular heartbeat/Valvular Heart Disease,
+Do you feel fatigue and weakness/Do you have regular sensations of nausea/Do you have swollen ankles feet or abdomen/Do you have an increased need to urinate at night/Did you have a very rapid weight gain/Heart Failure,
+Do you experience fever or shivering/Do you frequently have cough and a sore throat/Do you face shortness of breath/Do you experience frequent burning sensations or pain in your chest/Corona Virus,
+Do you face the issue of memory loss/Do you have difficulty in completing familiar tasks/Do you often have mood swings/Do you have vision problems/Do you have issues in decision making/Alzheimer’s disease,
+Do you face the issue of memory loss/Do you often lose your balance/Have you been depressed lately/Do you often have mood swings/Do you have vision problems/Brain Tumor,
+Do you have a decreased appetite/Have you been depressed lately/Do you often have mood swings/Do you have issues in decision making/Do you get thirsty again and again/Migraine,
+Do you often have headache and fever/Do you have thick yellow mucus draining in from the back of your nose/Do you frequently have cough and a sore throat/Sinusitis,
+Do you have excessive sweating/Do you frequently hear ringing sounds/Do you usually feel that your head is spinning or is moving in one direction/Vertigo,
+Do you have difficulty in swallowing food/Do you face frequent heartburn/Have you unexpectedly lost weight/Dysphagia,
+Do your gums bleed during and after tooth brushing/Do you experience persistent bad breath or persistent bad taste in your mouth/Is there formation of deep pockets between your teeth and gums/Do you have loose or shifting teeth/Gum Disease,
+Do you face spontaneous tooth pain without any apparent cause/Are there any visible holes or pits in your teeth/Do you face difficulty in breathing or swallowing/Do you have loose or shifting teeth/Cavities,
+Do you encounter severe persistent throbbing toothache that can radiate to the jawbone neck or ear/Do you experience persistent bad breath or persistent bad taste in your mouth/Do you experience swelling in face or teeth/Do you face difficulty in breathing or swallowing/Abscessed Tooth,
+Do you experience frequent burning sensations or pain in your chest/Do you have disrupted sleep cycles or feel depressed/Do you get a sensation of lump in your throat/Do you face regurgitation of food or sour liquid/Gastroesophageal Reflux Disease,
+Do you experience fever or shivering/Do you eject clay colored stools or dark urine/Do you frequently have diarrhea and vomiting/Do you face regurgitation of food or sour liquid/Gallstones,
+Do you have constipation/Do you have disrupted sleep cycles or feel depressed/Do you experience excessive gas/Do you frequently have diarrhea and vomiting/Celiac Disease

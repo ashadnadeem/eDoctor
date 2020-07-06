@@ -1,0 +1,571 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package aram;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.datatransfer.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+
+class Login extends JFrame implements ActionListener {
+
+    private JPanel panel;
+    private JLabel user_label, password_label;
+    private JTextField userNameTF;
+    private JPasswordField passwordTF;
+    private JButton submit, home;
+    private String  userName , userPsw; 
+    private RandomAccessFile file;
+    private Admin admin;
+    Login() throws FileNotFoundException {
+        //File
+        admin = new Admin();
+        file = new RandomAccessFile("AdminData.dat","rw");
+        
+        // User Label
+        user_label = new JLabel("UserName :   ",SwingConstants.RIGHT);
+        userNameTF = new JTextField();
+       
+        // Password
+        password_label = new JLabel("Password :   ",SwingConstants.RIGHT);
+        passwordTF = new JPasswordField();
+
+        // Submit
+
+        submit = new JButton("Login");
+        submit.setIcon(new ImageIcon(getClass().getResource("/aram/Users-Enter-2-icon.png"))); // NOI18N
+        submit.setBorder(null);
+        submit.setContentAreaFilled(false);
+        submit.setPreferredSize(new Dimension(32, 32));
+        home = new JButton("Home");
+        home.setIcon(new ImageIcon(getClass().getResource("/aram/home-icon.png"))); // NOI18N
+        home.setBorder(null);
+        home.setContentAreaFilled(false);
+        home.setPreferredSize(new Dimension(32, 32));
+        
+        panel = new JPanel(new GridLayout(3, 2));
+
+        panel.add(user_label);
+        panel.add(userNameTF);
+        panel.add(password_label);
+        panel.add(passwordTF);
+
+        panel.add(home);
+        panel.add(submit);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        // Adding the listeners to components..
+        submit.addActionListener(this);
+        home.addActionListener(this);
+        passwordTF.addActionListener(this);
+        add(panel, BorderLayout.CENTER);
+        setTitle("Please Login Here !");
+        setSize(350, 130);
+        setVisible(true);
+
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae){
+        if(ae.getSource() == submit || ae.getSource() == passwordTF ){
+            String userName = userNameTF.getText();
+            String password = passwordTF.getText();
+            try {
+                long ptr = admin.searchString(file,userName,admin.SearchTA);
+                file.seek(ptr);
+                admin.read(file);
+            
+            if ((admin.getUserName().trim().equals(userName)) && (admin.getUserPsw().trim().equals(password))) {
+                try {
+                    JOptionPane.showMessageDialog(null," Hello " + admin.getName()+ "", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                    RecordGUI a = new RecordGUI(admin.getName());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null," Invalid username or password ", "Login Failed", JOptionPane.WARNING_MESSAGE);
+            }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null," Invalid username or password ", "Login Failed", JOptionPane.WARNING_MESSAGE);
+            } catch (Blank ex) {
+                JOptionPane.showMessageDialog(null," Invalid username or password ", "Login Failed", JOptionPane.WARNING_MESSAGE);
+            } catch (NullPointerException ex){}
+        }
+        if(ae.getSource() == home){
+            try {
+                // TODO add your handling code here:
+                PatientGUI p = new PatientGUI();
+                this.setVisible(false);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+}
+public class RecordGUI extends JFrame{
+    public RecordGUI(String Name) throws FileNotFoundException {
+        a = new Patient();
+        name = Name;
+        file = new RandomAccessFile("PersonalData.dat","rw");
+        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        initComponents();
+        this.setVisible(true);
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        SearchJB = new javax.swing.JButton();
+        First = new javax.swing.JButton();
+        Next = new javax.swing.JButton();
+        Previous = new javax.swing.JButton();
+        Last = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        bgL = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        nameTF = new javax.swing.JTextField();
+        cnicTF = new javax.swing.JTextField();
+        genL = new javax.swing.JLabel();
+        ageL = new javax.swing.JLabel();
+        bgTF = new javax.swing.JTextField();
+        ageTF = new javax.swing.JTextField();
+        genTF = new javax.swing.JTextField();
+        WelcomeL = new javax.swing.JLabel();
+        About = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        Exit = new javax.swing.JButton();
+        copyJB = new javax.swing.JButton();
+        homeJB = new javax.swing.JButton();
+        updateJB = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        deseaseTF = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Patient Records - ARAMcorp");
+
+        SearchJB.setBackground(new java.awt.Color(204, 204, 255));
+        SearchJB.setText("Search");
+        SearchJB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchJBActionPerformed(evt);
+            }
+        });
+
+        First.setBackground(new java.awt.Color(255, 204, 204));
+        First.setText("First");
+        First.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FirstActionPerformed(evt);
+            }
+        });
+
+        Next.setBackground(new java.awt.Color(51, 153, 255));
+        Next.setText("Next");
+        Next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+        });
+
+        Previous.setBackground(new java.awt.Color(153, 255, 153));
+        Previous.setText("Previous");
+        Previous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PreviousActionPerformed(evt);
+            }
+        });
+
+        Last.setBackground(new java.awt.Color(51, 255, 204));
+        Last.setText("Last");
+        Last.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LastActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setForeground(new java.awt.Color(153, 51, 0));
+        jLabel1.setText("Name:");
+
+        jLabel2.setForeground(new java.awt.Color(153, 51, 0));
+        jLabel2.setText("Cnic:");
+
+        bgL.setForeground(new java.awt.Color(153, 0, 0));
+        bgL.setText("BloodGroup:");
+
+        nameTF.setEditable(false);
+
+        cnicTF.setEditable(false);
+
+        genL.setForeground(new java.awt.Color(153, 0, 0));
+        genL.setText("Gender");
+
+        ageL.setForeground(new java.awt.Color(153, 0, 0));
+        ageL.setText("Age");
+
+        bgTF.setEditable(false);
+        bgTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bgTFActionPerformed(evt);
+            }
+        });
+
+        ageTF.setEditable(false);
+
+        genTF.setEditable(false);
+
+        WelcomeL.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        WelcomeL.setText("Hello, " + name.trim());
+
+        About.setBackground(new java.awt.Color(0, 102, 102));
+        About.setText("About");
+        About.setBorder(null);
+        About.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutActionPerformed(evt);
+            }
+        });
+
+        Exit.setBackground(new java.awt.Color(255, 102, 102));
+        Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+
+        copyJB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aram/copy-icon.png"))); // NOI18N
+        copyJB.setBorder(null);
+        copyJB.setContentAreaFilled(false);
+        copyJB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyJBActionPerformed(evt);
+            }
+        });
+
+        homeJB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aram/home-icon.png"))); // NOI18N
+        homeJB.setBorder(null);
+        homeJB.setContentAreaFilled(false);
+        homeJB.setMaximumSize(new java.awt.Dimension(32, 32));
+        homeJB.setMinimumSize(new java.awt.Dimension(32, 32));
+        homeJB.setPreferredSize(new java.awt.Dimension(32, 32));
+        homeJB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeJBActionPerformed(evt);
+            }
+        });
+
+        updateJB.setBackground(new java.awt.Color(255, 204, 0));
+        updateJB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aram/secrecy-icon.png"))); // NOI18N
+        updateJB.setText("Credentials");
+        updateJB.setBorder(null);
+        updateJB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateJBActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(153, 51, 0));
+        jLabel3.setText("Desease:");
+
+        deseaseTF.setEditable(false);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(cnicTF, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(20, 20, 20)
+                            .addComponent(deseaseTF, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bgL)
+                            .addGap(52, 52, 52)
+                            .addComponent(bgTF, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(genL, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(5, 5, 5)
+                            .addComponent(genTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(ageL, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(5, 5, 5)
+                            .addComponent(ageTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(26, 26, 26)
+                            .addComponent(copyJB))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(SearchJB, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(First, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(Previous, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(Last, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(homeJB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(154, 154, 154)
+                            .addComponent(updateJB, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(About, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(7, 7, 7)
+                            .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(WelcomeL, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(WelcomeL, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cnicTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deseaseTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bgL, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bgTF, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(genTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ageTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(copyJB)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(genL)
+                            .addComponent(ageL))))
+                .addGap(7, 7, 7)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SearchJB, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(First, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Previous, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Last, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(homeJB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateJB)
+                    .addComponent(About, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void SearchJBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchJBActionPerformed
+        
+        try {
+            //JOptionPane.showMessageDialog(null,"Entry Added! " , "Search", JOptionPane.);
+            long ptr = 0;
+            String searchCnic = JOptionPane.showInputDialog(null, "SEARCH BY Name or Cnic","");
+            System.out.print(searchCnic);
+            if(searchCnic.equals(null)){}
+            else
+            //a = Records.searchString(file,searchCnic,a.SearchTP);
+            ptr = Records.searchString(file,searchCnic,a.SearchTP);
+            file.seek(ptr);
+            a.read(file);
+            nameTF.setText(a.getName());
+            cnicTF.setText(a.getCnic());
+            bgTF.setText(a.getBG());
+            genTF.setText(" "+a.getGender());
+            ageTF.setText(""+a.getAge());
+            deseaseTF.setText(a.getDisease());
+        } catch (IOException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(NullPointerException ex){
+        } catch(Blank er){
+            JOptionPane.showMessageDialog(null,er.toString(), "Error!", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_SearchJBActionPerformed
+
+    private void bgTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bgTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bgTFActionPerformed
+
+    private void FirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstActionPerformed
+        try {
+           a = Records.first(file);
+           nameTF.setText(a.getName());
+           cnicTF.setText(a.getCnic());
+           bgTF.setText(a.getBG());
+           genTF.setText(" "+a.getGender());
+           ageTF.setText(""+a.getAge());
+           deseaseTF.setText(a.getDisease());
+        } catch (IOException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_FirstActionPerformed
+
+    private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
+        try {
+            
+           a = Records.next(file);
+           nameTF.setText(a.getName());
+           cnicTF.setText(a.getCnic());
+           bgTF.setText(a.getBG());
+           genTF.setText(" "+a.getGender());
+           ageTF.setText(""+a.getAge());
+            deseaseTF.setText(a.getDisease());
+           
+        } catch (IOException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_NextActionPerformed
+
+    private void PreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousActionPerformed
+         try {
+           
+           a = Records.previous(file);
+           nameTF.setText(a.getName());
+           cnicTF.setText(a.getCnic());
+           bgTF.setText(a.getBG());
+           genTF.setText(" "+a.getGender());
+           ageTF.setText(""+a.getAge());
+           deseaseTF.setText(a.getDisease());
+           
+        } catch (IOException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_PreviousActionPerformed
+
+    private void LastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LastActionPerformed
+         try {
+            
+           a = Records.last(file);
+           nameTF.setText(a.getName());
+           cnicTF.setText(a.getCnic());
+           bgTF.setText(a.getBG());
+           genTF.setText(" "+a.getGender());
+           ageTF.setText(""+a.getAge());
+           deseaseTF.setText(a.getDisease());
+           
+        } catch (IOException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_LastActionPerformed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
+        // TODO add your handling code here:
+        AboutAdminGUI abt = new AboutAdminGUI();
+    }//GEN-LAST:event_AboutActionPerformed
+
+    private void copyJBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyJBActionPerformed
+        // TODO add your handling code here:
+        stringSelection = new StringSelection(a.toString());
+        clipboard.setContents(stringSelection, null);
+        JOptionPane.showMessageDialog(null," Copied to Clipboard ", "Copied", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_copyJBActionPerformed
+
+    private void homeJBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeJBActionPerformed
+        try {
+            // TODO add your handling code here:
+            PatientGUI p = new PatientGUI();
+            this.setVisible(false);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_homeJBActionPerformed
+
+    private void updateJBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateJBActionPerformed
+        try {
+            // TODO add your handling code here:
+            UpdateCredentialsGUI u = new UpdateCredentialsGUI();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RecordGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_updateJBActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    private StringSelection stringSelection;
+    private Clipboard clipboard;
+    private String name;
+    private Patient a;
+    private RandomAccessFile file;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton About;
+    private javax.swing.JButton Exit;
+    private javax.swing.JButton First;
+    private javax.swing.JButton Last;
+    private javax.swing.JButton Next;
+    private javax.swing.JButton Previous;
+    private javax.swing.JButton SearchJB;
+    private javax.swing.JLabel WelcomeL;
+    private javax.swing.JLabel ageL;
+    private javax.swing.JTextField ageTF;
+    private javax.swing.JLabel bgL;
+    private javax.swing.JTextField bgTF;
+    private javax.swing.JTextField cnicTF;
+    private javax.swing.JButton copyJB;
+    private javax.swing.JTextField deseaseTF;
+    private javax.swing.JLabel genL;
+    private javax.swing.JTextField genTF;
+    private javax.swing.JButton homeJB;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField nameTF;
+    private javax.swing.JButton updateJB;
+    // End of variables declaration//GEN-END:variables
+}
