@@ -1,4 +1,7 @@
 # eDoctor
+![GitHub top language](https://img.shields.io/github/languages/top/ashadnadeem/eDoctor?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/ashadnadeem/eDoctor?style=for-the-badge)
+
 E-Doctor is a personalized application made by me.
 It is a platform for the  patients to identify their disease and learn about it as well.
 It consists of a vast array of features for both patients and the panel of admin. 
